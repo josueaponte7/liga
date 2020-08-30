@@ -16,6 +16,7 @@ class ApiPosicionController extends AbstractController
      */
     public function api()
     {
+        
         return $this->json([
             'message' => 'create new posicion'
         ]);
