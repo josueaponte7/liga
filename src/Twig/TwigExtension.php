@@ -5,12 +5,10 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Filesystem;
-use App\Entity\Clientes;
+
 use App\Entity\Equipo;
+use App\Entity\Posicion;
 
 
 class TwigExtension extends AbstractExtension
@@ -30,13 +28,14 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('equipo', [$this, 'getEquipo']),
+            new TwigFunction('posicion', [$this, 'getPosicion']),
         ];
     }
 
     public function formatPrice($number, $decimals = 0, $decPoint = '.', $thousandsSep = ',')
     {
         $price = number_format($number, $decimals, $decPoint, $thousandsSep);
-        $price = $price.'€';
+        $price = $price.' €';
 
         return $price;
     }
@@ -47,4 +46,12 @@ class TwigExtension extends AbstractExtension
         $equipo = $repositorio->find($equipoId);
         return  $equipo->getNombre();
     }
+    
+    public function getPosicion($posicionId)
+    {
+        $repositorio = $this->em->getRepository(Posicion::class);
+        $posicion = $repositorio->find($posicionId);
+        return  $posicion->getNombre();
+    }
+    
 }
