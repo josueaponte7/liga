@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Posicion;
 
 /**
  * @Route("/api/v1")
@@ -24,9 +25,12 @@ class ApiPosicionController extends AbstractController
      */
     public function list()
     {
-
+       $em = $this->getDoctrine()->getManager();
+       $repositorio = $em->getRepository(Posicion::class);
+       $posiciones = $repositorio->findAll();
+       
         return $this->json([
-            'list' => 'listar posiciones'
+            'Posiciones' => $posiciones
         ]);
     }
 }
