@@ -120,12 +120,7 @@ class JugadorController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('jugador');
     }
-    
-    
-    
-    
-    
-    
+ 
     /**
     * @Route("/jugador_delete/{id}", name="jugador_delete", methods={"GET"})
     */
