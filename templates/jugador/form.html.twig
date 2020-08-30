@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guardar Jugador{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+   
+    <form class="form-horizontal" id="formRegJugador" name="formRegJugador" action="{{ path('jugador_save') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-12 col-md-6 mb-3">
+                <label ><b>Jugador</b></label>
+                <input class="form-control " type="text" id="nombre" name="nombre" placeholder="Ingrese Nombre" maxlength="100" />
+            </div>
+             <div class="col-12 col-md-6 mb-3">
+                <label ><b>Equipo</b></label>
+                <select class=" form-control" id="equipo_id" name="equipo_id" >
+                <option value="" selected >Seleccione</option>
+                    {% for equipo  in equipos %}
+                        <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-12 col-md-6 mb-3">
+                <label ><b>Posición</b></label>
+                <select class=" form-control" id="posicion_id" name="posicion_id" >
+                <option value="" selected >Seleccione</option>
+                    {% for posicion  in posiciones %}
+                        <option value="{{ posicion.id }}">{{ posicion.nombre }}</option>
+                    {% endfor %}
+                </select>
+                
+            </div>
+             <div class="col-12 col-md-6 mb-3">
+                <label ><b>Precio</b></label>
+                <input class="form-control " type="text" id="precio" name="precio" placeholder="Ingrese Precio" maxlength="15" />
+            </div>
+        </div>
+        <div class="form-group text-center" style="padding-top: 20px">
+            <button class="btn btn-secondary" type="submit">Guardar</button>
+        </div>
+    </form>
+    
+</div>
+{% endblock %}

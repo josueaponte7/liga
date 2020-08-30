@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guardar Equipo{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+   
+    <form class="form-horizontal" id="formRegEquipo" name="formRegEquipo" action="{{ path('equipo_save') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="col-12 col-md-6 mb-3">
+                <label ><b>Equipo</b></label>
+                <input class="form-control " type="text" id="nombre" name="nombre" placeholder="Ingrese Nombre" maxlength="100" />
+            </div>
+        </div>
+        <div class="form-group text-center" style="padding-top: 20px">
+            <button class="btn btn-secondary" type="submit">Guardar</button>
+        </div>
+    </form>
+    
+</div>
+{% endblock %}

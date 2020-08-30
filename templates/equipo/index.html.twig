@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Equipos!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <table id="listposicitable" class="table table-bordered table-sm">
+        <thead>
+            <tr style="font-size: 10px; color: #79008E;  background-color: #D2E4E8">
+                <th >ID</th> 
+                <th >NOMBRE</th>
+                <th >EDITAR</th>
+                <th >ELIMINAR</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo  in equipos %}
+                <tr id="{{ equipo.id }}">
+                    <td>{{ equipo.id }}</td>
+                    <td>{{ equipo.nombre }}</td>
+                    <td>
+                        <a href="{{ path('equipo_edit', { id: equipo.id } ) }}" class="titulo text-danger eliminar" title="Eliminar"  data-toggle="popover" data-html="true"  data-trigger="hover" data-placement="top" data-content="Editar">
+                            Editar
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('equipo_delete', { id: equipo.id } ) }}" class="titulo text-danger eliminar" title="Eliminar"  data-toggle="popover" data-html="true"  data-trigger="hover" data-placement="top" data-content="Eliminar">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <br>
+    <div class="float-right">
+
+        <a href="{{ path('equipo_new') }}" class="btn btn-app">
+            <i class="fa fa-caret-left" id="return"></i> Nuevo
+        </a>
+            
+    </div>
+</div>
+{% endblock %}
