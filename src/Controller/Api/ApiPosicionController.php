@@ -40,22 +40,14 @@ class ApiPosicionController extends AbstractController
        $repositorio = $em->getRepository(Posicion::class);
        $posicion = $repositorio->findAll();
        
-       $mensaje='No existen Posiciones Registradas';
-       
-        if(!empty($equipo)){
-            
-            $mensaje =$mensaje;
-            
-        }else{
-            
+       $response = ['codigo' => 404, 'msg' => 'No existen Posiciones Registradas'];
+        if($posicion) {
             $mensaje =$posicion;
+            $codigo = 200;
+            $response = ['codigo' => 200, 'listado' => $posicion];
             
         }
-        
-       
-        return $this->json([
-            'listado' => $mensaje
-        ]);
+        return $this->json($response);
     }
     
     
