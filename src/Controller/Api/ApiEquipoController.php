@@ -48,7 +48,21 @@ class ApiEquipoController extends AbstractController
        return $this->json($response);
     }
     
-    
+    /**
+     * @Route("/equipo/find/{id}", name="api_equipo_find", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function find($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Equipo::class);
+        $equipo = $repositorio->find($id);
+
+        $response = ['codigo' => 404, 'msg' => 'Equipo no Encontrado'];
+        if ($equipo) {
+            $response = ['codigo' => 200, 'equipo' => $equipo];
+        }
+        return $this->json($response);
+    }
         
      /**
      * @Route("/equipo/edit/{id}", name="api_equipo_edit", methods={"PUT"})
