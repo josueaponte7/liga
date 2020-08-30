@@ -105,7 +105,22 @@ class ApiJugadorController extends AbstractController
        return $this->json($response);
     }
     
+    /**
+     * @Route("/jugador/find/{id}", name="api_jugador_find", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function find($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Jugador::class);
+        $jugador = $repositorio->find($id);
 
+        $response = ['codigo' => 404, 'msg' => 'Jugador no Encontrado'];
+        if ($jugador) {
+            $response = ['codigo' => 200, 'jugador' => $jugador];
+        }
+        return $this->json($response);
+    }
+    
     /**
      * @Route("/jugador/edit/{id}", name="api_jugador_edit", methods={"PUT"})
      */
