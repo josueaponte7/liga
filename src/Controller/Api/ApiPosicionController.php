@@ -6,6 +6,10 @@ use App\Entity\Posicion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Jugador;
+use App\Entity\Equipo;
+
+use App\Service\ExternoService;
 
 /**
  * @Route("/api/v1")
@@ -46,7 +50,7 @@ class ApiPosicionController extends AbstractController
         return $this->json($response);
     }
 
-    /**
+    /**use App\Entity\Jugador;
      * @Route("/posicion/find/{id}", name="api_posicion_find", requirements={"id"="\d+"}, methods={"GET"})
      */
     public function find($id)
@@ -115,6 +119,41 @@ class ApiPosicionController extends AbstractController
     {
         $response = ['codigo' => 404, 'msg' => $money];
 
+        return $this->json($response);
+    }
+
+    /**
+     * @Route("/jugador/find/{id}/{money}", name="api_jugador_find", requirements={"id"="\d+"}, defaults={"money": "EUR"}, methods={"GET"})
+     */
+    public function findJ(int $id, string $money)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Jugador::class);
+        $requipo = $em->getRepository(Equipo::class);
+        $rposicion = $em->getRepository(Posicion::class);
+        $jugador = $repositorio->find($id);
+        $response = ['codigo' => 404, 'msg' => 'Jugador no Encontrado'];
+        if ($jugador) {
+
+            
+
+            $equipo = $requipo->find($jugador->getEquipoId());
+            $posicion = $rposicion->find($jugador->getPosicionId());
+            $moneda = '€';
+            $precio = $jugador->getPrecio();
+            if($money !== 'EUR') {
+                $moneda = '$';
+                $service = new ExternoService();
+                $precio = $service->getMoney($precio);
+            }
+            $data['nombre'] = $jugador->getNombre();
+            $data['precio'] = $precio.' '.$moneda;
+            $data['equipo']['id'] = $equipo->getId();
+            $data['equipo']['equipo'] = $equipo->getNombre();
+            $data['posicion']['id'] = $posicion->getId();
+            $data['posicion']['posicion'] = $posicion->getNombre();
+            $response = ['codigo' => 200, 'jugador' => $data];
+        }
         return $this->json($response);
     }
 
