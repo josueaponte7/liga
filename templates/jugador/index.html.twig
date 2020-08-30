@@ -28,7 +28,7 @@
                     <td>{{ jugador.nombre }}</td>
                     <td>{{ equipo(jugador.equipoId) }}</td>
                     <td>{{ posicion(jugador.posicionId) }}</td>
-                    <td>{{ jugador.precio|price }}</td>
+                    <td>{{ jugador.precio|price (2,',', '.') }}</td>
                     <td>
                         <a href="{{ path('jugador_edit', { id: jugador.id } ) }}" class="titulo text-danger eliminar" title="Eliminar"  data-toggle="popover" data-html="true"  data-trigger="hover" data-placement="top" data-content="Editar">
                             Editar

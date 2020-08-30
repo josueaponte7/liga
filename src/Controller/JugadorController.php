@@ -35,11 +35,11 @@ class JugadorController extends AbstractController
     public function news()
     {
        $em = $this->getDoctrine()->getManager();
-       $equipo   = $em->getRepository(Equipo::class);
-       $posicion = $em->getRepository(Posicion::class);
+       $equipos   = $em->getRepository(Equipo::class);
+       $posiciones = $em->getRepository(Posicion::class);
        
-       $equipos_all  = $equipo->findAll();
-       $posicion_all = $posicion->findAll();
+       $equipos_all  = $equipos->findAll();
+       $posicion_all = $posiciones->findAll();
        
        $view['equipos']    = $equipos_all;
        $view['posiciones'] = $posicion_all;
@@ -79,10 +79,20 @@ class JugadorController extends AbstractController
     public function edit($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $repositorio = $em->getRepository(Equipo::class);
-
-        $equipo = $repositorio->find($id);
-        $view['equipo'] = $equipo;
+        $repositorio = $em->getRepository(Jugador::class);
+        $equipos      = $em->getRepository(Equipo::class);
+        $posiciones    = $em->getRepository(Posicion::class);
+       
+        $equipos_all  = $equipos->findAll();
+        $posicion_all = $posiciones->findAll();
+        
+        $jugador = $repositorio->find($id);
+        
+        $view['jugador']     = $jugador;
+        $view['equipos']    = $equipos_all;
+        $view['posiciones'] = $posicion_all;
+        
+        
         return $this->render('jugador/edit.html.twig', $view);
     }
     
