@@ -217,5 +217,115 @@ class ApiJugadorController extends AbstractController
     }
     
     
+    /**
+     * @Route("/jugador/findListEquipo/{id}", name="api_jugador_findListEquipo", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function find_list_equipo($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Equipo::class);
+        $equipo = $repositorio->find($id);
+  
+        $response = ['codigo' => 404, 'msg' => 'Equipo no Encontrado'];
+        if ($equipo) {
+            
+            $jugadores = $em->getRepository(Jugador::class);
+            $listjugadores = $jugadores->findBy(['equipoId' => $id]);
+            
+            $response = ['codigo' => 404, 'msg' => 'No hay Jugadores en este Equipo'];
+            
+            if($listjugadores){
+            
+                $response = ['codigo' => 200, 'jugadores' => $listjugadores];
+                return $this->json($response);
+            
+            }else{
+                return $this->json($response);
+                
+            }
+            
+        }
+        
+        return $this->json($response);
+    }
+    
+    
+    /**
+     * @Route("/jugador/findListPosicion/{id}", name="api_jugador_findListPosicion", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function find_list_posicion($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Posicion::class);
+        $posicion = $repositorio->find($id);
+  
+        $response = ['codigo' => 404, 'msg' => 'Posicion no Encontrada'];
+        if ($posicion) {
+            
+            $jugadores = $em->getRepository(Jugador::class);
+            $listjugadores = $jugadores->findBy(['posicionId' => $id]);
+            
+            $response = ['codigo' => 404, 'msg' => 'No hay Jugadores en esta Posicion'];
+            
+            if($listjugadores){
+            
+                $response = ['codigo' => 200, 'jugadores' => $listjugadores];
+                return $this->json($response);
+            
+            }else{
+                return $this->json($response);
+                
+            }
+            
+        }
+         return $this->json($response);
+        
+        
+    }
+    
+    
+    /**
+     * @Route("/jugador/findListEquiPosic/{id}/{ik}", name="api_jugador_findListEquiPosic", requirements={"id"="\d+","ik"="\d+"}, methods={"GET"})
+     */
+    public function find_list_equipo_posicion($id, $ik)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repositorio = $em->getRepository(Equipo::class);
+        $equipo      = $repositorio->find($id);
+  
+        $response = ['codigo' => 404, 'msg' => 'Equipo no Encontrado'];
+        if ($equipo) {
+            
+                $response = ['codigo' => 404, 'msg' => 'Posicion no Encontrada'];
+                $repo_posicion = $em->getRepository(Posicion::class);
+                $posicion      = $repo_posicion->find($ik);
+            
+                if ($posicion) {
+                    
+                        $jugadores = $em->getRepository(Jugador::class);
+                        $listjugadores = $jugadores->findBy(['equipoId' => $id,'posicionId' => $ik]);
+
+                        $response = ['codigo' => 404, 'msg' => 'No hay Jugadores en Este Equipo para esta Posicion'];
+
+                        if($listjugadores){
+
+                            $response = ['codigo' => 200, 'jugadores' => $listjugadores];
+                            return $this->json($response);
+
+                        }else{
+                            
+                            return $this->json($response);
+
+                        }
+                }
+                
+            return $this->json($response);
+        }
+         return $this->json($response);
+        
+        
+    }
+    
+    
     
 }

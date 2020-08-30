@@ -108,14 +108,6 @@ class ApiPosicionController extends AbstractController
         return $this->json($response);
     }
 
-    /**
-     * @Route("/posicion/find1/{id}/{money}", name="api_posicion_find1", requirements={"id"="\d+"}, defaults={"money": "EUR"}, methods={"GET"})
-     */
-    public function find1(int $id, string $money)
-    {
-        $response = ['codigo' => 404, 'msg' => $money];
 
-        return $this->json($response);
-    }
 
 }
