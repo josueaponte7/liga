@@ -27,5 +27,12 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Twig\:
+      resource: '../src/Twig/'
+      public: false
+      arguments: ['', '@doctrine.orm.entity_manager']
+      tags:
+          - { name: twig.extension}
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
