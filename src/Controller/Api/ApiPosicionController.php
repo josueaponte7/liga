@@ -41,13 +41,10 @@ class ApiPosicionController extends AbstractController
        $posicion = $repositorio->findAll();
        
        $response = ['codigo' => 404, 'msg' => 'No existen Posiciones Registradas'];
-        if($posicion) {
-            $mensaje =$posicion;
-            $codigo = 200;
+       if($posicion) {
             $response = ['codigo' => 200, 'listado' => $posicion];
-            
-        }
-        return $this->json($response);
+       }
+       return $this->json($response);
     }
     
     
