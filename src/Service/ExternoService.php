@@ -2,8 +2,6 @@
 // src/Service/ExternoService.php
 namespace App\Service;
 
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpClient\HttpClient;
 class ExternoService
 {
