@@ -281,9 +281,9 @@ class ApiJugadorController extends AbstractController
     
     
     /**
-     * @Route("/jugador/findListPosicion/{id}", name="api_jugador_findListPosicion", requirements={"id"="\d+"}, methods={"GET"})
+     * @Route("/jugador/findListPosicion/{id}/{money}", name="api_jugador_findListPosicion", requirements={"id"="\d+"}, defaults={"money": "EUR"}, methods={"GET"})
      */
-    public function find_list_posicion($id)
+    public function find_list_posicion($id, string $money)
     {
         $em = $this->getDoctrine()->getManager();
         $repositorio = $em->getRepository(Posicion::class);
@@ -298,8 +298,22 @@ class ApiJugadorController extends AbstractController
             $response = ['codigo' => 404, 'msg' => 'No hay Jugadores en esta Posicion'];
             
             if($listjugadores){
-            
-                $response = ['codigo' => 200, 'jugadores' => $listjugadores];
+                $list = [];
+
+                 foreach ($listjugadores as $value) {
+                    $precio = $value->getPrecio();
+                    $moneda = '€';
+                    if($money !== 'EUR') {
+                        $moneda = '$';
+                        $service = new ExternoService();
+                        $precio = $service->getMoney($precio);
+                    }
+                    $lista['id'] = $value->getId();
+                    $lista['nombre'] = $value->getNombre();
+                    $lista['precio'] = $precio. ' '.$moneda;
+                    array_push($list, $lista);
+                 }
+                $response = ['codigo' => 200, 'jugadores' => $list];
                 return $this->json($response);
             
             }else{
@@ -315,9 +329,9 @@ class ApiJugadorController extends AbstractController
     
     
     /**
-     * @Route("/jugador/findListEquiPosic/{id}/{ik}", name="api_jugador_findListEquiPosic", requirements={"id"="\d+","ik"="\d+"}, methods={"GET"})
+     * @Route("/jugador/findListEquiPosic/{id}/{ik}/{money}", name="api_jugador_findListEquiPosic", requirements={"id"="\d+","ik"="\d+"}, defaults={"money": "EUR"}, methods={"GET"})
      */
-    public function find_list_equipo_posicion($id, $ik)
+    public function find_list_equipo_posicion($id, $ik, string $money)
     {
         $em = $this->getDoctrine()->getManager();
         $repositorio = $em->getRepository(Equipo::class);
@@ -338,12 +352,25 @@ class ApiJugadorController extends AbstractController
                         $response = ['codigo' => 404, 'msg' => 'No hay Jugadores en Este Equipo para esta Posicion'];
 
                         if($listjugadores){
+                            $list = [];
 
-                            $response = ['codigo' => 200, 'jugadores' => $listjugadores];
+                             foreach ($listjugadores as $value) {
+                                $precio = $value->getPrecio();
+                                $moneda = '€';
+                                if($money !== 'EUR') {
+                                    $moneda = '$';
+                                    $service = new ExternoService();
+                                    $precio = $service->getMoney($precio);
+                                }
+                                $lista['id'] = $value->getId();
+                                $lista['nombre'] = $value->getNombre();
+                                $lista['precio'] = $precio. ' '.$moneda;
+                                array_push($list, $lista);
+                             }
+                            $response = ['codigo' => 200, 'jugadores' => $list];
                             return $this->json($response);
 
                         }else{
-                            
                             return $this->json($response);
 
                         }
