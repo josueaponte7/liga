@@ -36,7 +36,11 @@
                 <select class=" form-control" id="posicion_id" name="posicion_id" >
                 <option value="" selected >Seleccione</option>
                     {% for posicion  in posiciones %}
-                        <option value="{{ posicion.id }}">{{ posicion.nombre }}</option>
+                        {% set selected = '' %}
+                        {% if jugador.posicionId == posicion.id %}
+                        {% set selected = 'selected="selected"' %}
+                        {% endif%}
+                        <option value="{{ posicion.id }}" {{ selected }}>{{ posicion.nombre }}</option>
                     {% endfor %}
                 </select>
                 

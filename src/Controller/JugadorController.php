@@ -101,13 +101,22 @@ class JugadorController extends AbstractController
     */
     public function update($id, Request $request)
     {
-        $nombre = $request->get('nombre');
+        $nombre      = $request->get('nombre');
+        $equipo_id   = $request->get('equipo_id');
+        $posicion_id = $request->get('posicion_id');
+        $precio      = $request->get('precio');
+        
         $em = $this->getDoctrine()->getManager();
-        $repositorio = $em->getRepository(Equipo::class);
+        $repositorio = $em->getRepository(Jugador::class);
 
-        $equipo = $repositorio->find($id);
-        $equipo->setNombre($nombre);
-        $em->persist($equipo);
+        $jugador_update = $repositorio->find($id);
+        
+        $jugador_update->setNombre($nombre);
+        $jugador_update->setEquipoId($equipo_id);
+        $jugador_update->setPosicionId($posicion_id);
+        $jugador_update->setPrecio($precio);
+        
+        $em->persist($jugador_update);
         $em->flush();
         return $this->redirectToRoute('jugador');
     }
