@@ -191,8 +191,6 @@ class ApiJugadorController extends AbstractController
             return $this->json($response_jugador);
         }
         
-        
-      
     
     /**
      * @Route("/jugador/delete/{id}", name="api_jugador_delete", methods={"DELETE"})
