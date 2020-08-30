@@ -41,84 +41,60 @@ class ApiEquipoController extends AbstractController
        $equipos = $repositorio->findAll();
        
        
-       $mensaje='No existen Posiciones Registradas';
-       
-        if(!empty($equipo)){
-            
-            $mensaje =$mensaje;
-            
-        }else{
-            
-            $mensaje =$equipos;
-            
-        }
-       
-       
-        return $this->json([
-            'lista' => $equipos
-        ]);
+       $response = ['codigo' => 404, 'msg' => 'No existen Equipos Registrados'];
+       if($equipos) {
+            $response = ['codigo' => 200, 'listado' => $equipos];
+       }
+       return $this->json($response);
     }
     
     
         
      /**
-     * @Route("/equipo/edit/{id}", name="api_equipo_edit", methods={"POST"})
+     * @Route("/equipo/edit/{id}", name="api_equipo_edit", methods={"PUT"})
      */
     public function edit($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $repositorio = $em->getRepository(Equipo::class);
-       
+    {   
         $nombre = $request->get('nombre');
-        
-        $equipo = $repositorio->find($id);
-        
-        $mensaje = "Equipo Actualizado Corectamente!!";
-        if(!empty($equipo)){
-            
-            $equipo = $repositorio->find($id);
-            $equipo->setNombre($nombre);
-            $em->persist($equipo);
-            $em->flush();
-        
-            $mensaje =$mensaje;
-             
-        }else{
-            $mensaje='Equipo no Encontrado';
+        $response = ['codigo' => 404, 'msg' => 'Nombre no enviado'];
+            if(isset($nombre)){
+                $em = $this->getDoctrine()->getManager();
+                $repositorio = $em->getRepository(Equipo::class);
+
+                $equipo = $repositorio->find($id);
+
+                $response = ['codigo' => 404, 'msg' => 'Equipo no Encontrado'];
+            if($equipo) {
+
+                 $equipo->setNombre($nombre);
+                 $em->persist($equipo);
+                 $em->flush();
+
+                 $response = ['codigo' => 200, 'msg' => 'Equipo Actualizado Corectamente'];
+            }
         }
- 
-       
-        return $this->json([
-            'message' => $mensaje
-        ]);
+        return $this->json($response);
     }
     
 
     
      /**
-     * @Route("/equipo/delete/{id}", name="api_equipo_delete", methods={"GET"})
+     * @Route("/equipo/delete/{id}", name="api_equipo_delete", methods={"DELETE"})
      */
     public function delete($id)
     {
         $em = $this->getDoctrine()->getManager();
         $repositorio = $em->getRepository(Equipo::class);
-       
         $equipo = $repositorio->find($id);
-        
-        $mensaje = "Equipo Eliminado Corectamente!!";
-        if(!empty($equipo)){
-            
+
+        $response = ['codigo' => 404, 'msg' => 'Equipo no Encontrado'];
+        if($equipo) {
+
              $em->remove($equipo);
              $em->flush();
-             $mensaje =$mensaje;
-             
-        }else{
-            $mensaje='Equipo no Encontrado';
+
+             $response = ['codigo' => 200, 'msg' => 'Equipo Eliminado Corectamente!!'];
         }
- 
-       
-        return $this->json([
-            'message' => $mensaje
-        ]);
+        return $this->json($response);
     }
 }
