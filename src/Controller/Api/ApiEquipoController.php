@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Equipo;
-
 /**
  * @Route("/api/v1")
  */
@@ -111,4 +110,8 @@ class ApiEquipoController extends AbstractController
         }
         return $this->json($response);
     }
+    
+    
+    
+    
 }
